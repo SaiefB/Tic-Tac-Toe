@@ -10,9 +10,9 @@ function Gameboard() {
         }
     }
 
-    /* const getBoard = () => board;
+    const getBoard = () => board;
 
-    const dropToken = (column, player) => {
+    /* const dropToken = (column, player) => {
         const availableCells = board.filter((row) => row[column].getValue() === 0).map(row => row[column]);
 
         if (!availableCells.length) return;
