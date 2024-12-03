@@ -3,14 +3,14 @@ function Gameboard() {
     const columns = 3;
     const board = [];
 
-/*     for (let i = 0; i < rows; i++) {
+    for (let i = 0; i < rows; i++) {
         board[i] = [];
         for (let j = 0; j < columns; j++) {
             board[i].push(Cell());
         }
     }
 
-    const getBoard = () => board;
+    /* const getBoard = () => board;
 
     const dropToken = (column, player) => {
         const availableCells = board.filter((row) => row[column].getValue() === 0).map(row => row[column]);
