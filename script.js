@@ -44,3 +44,27 @@ function Cell() {
         getValue
     }
 }
+
+function GameController( // factory function to control the game flow
+    playerOneName = "Player One", // parameters used
+    playerTwoName = "Player Two"
+) {
+    const board = Gameboard(); // object to run Gameboard factory function to initialise the gameboard
+
+    const player = [ // object to hold information of players
+        {
+            name: playerOneName,
+            token: 1
+        },
+        {
+            name: playerTwoName,
+            token: 2
+        }
+    ];
+
+    let activePlayer = players[0] // tracks whose turn it is to play
+
+    
+
+
+}
