@@ -31,9 +31,16 @@ function Gameboard() { // Factory function to hold private functions
 
 
 function Cell() {
-    let value = 0;
+    let value = 0; // initializes the value of a cell
 
-    const addToken = (player) => {
+    const addToken = (player) => {// creates a arrow function that sets the value of the cell the same as the players value
         value = player;
     };
+
+    const getValue = () => value; // arrow function to retrieve the value of cell
+
+    return { // returns function within the factory function the global scope
+        addToken,
+        getValue
+    }
 }
