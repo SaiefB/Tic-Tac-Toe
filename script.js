@@ -24,7 +24,7 @@ function Gameboard() { // Factory function to hold private functions
         console.log(boardWithCellValues);
     };
 
-    return { getBoard, dropToken, printBoard } // exposes the functon in the factory function to the global scope
+    return { getBoard, placeToken, printBoard } // exposes the functon in the factory function to the global scope
 
 }
 
@@ -74,10 +74,30 @@ function GameController( // factory function to control the game flow
         console.log(`${getActivePlayer().name}'s turn.`);
     };
 
+    const playRound = (column) => { // this function handles the process of taking a turn in the game
+        console.log(
+            `Placing ${getActivePlayer().name}'s token into column ${column}...`
+        );
+        board.placeToken(column, getActivePlayer().token); // utilises the placeToken function to place token on the board
 
+        /*  This is where we would check for a winner and handle that logic,
+        such as a win message. */
 
+        switchPlayerTurn();
+        printNewRound();
+    }
 
-    
+    printNewRound() //calls the function, to print the board and let you know whose turn it is
 
+    return { // this return object - makes key function available to the scope above - i.e. global
+        playRound,
+        getActivePlayer,
+        getBoard: board.getBoard // allows external acces to the current state of the game board.
+    };
+}
 
+function ScreeController() {
+    const game = GameController();
+    const playerTurnDiv = document.querySelector('.turn');
+    const boardDiv = document.querySelector('.board');
 }
