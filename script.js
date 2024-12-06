@@ -112,7 +112,7 @@ function ScreeController() {
 
         // Render board squares
         board.forEach(row => {
-            row.forEach((cell, index) => {
+            row.forEach((cell, index) => { // craete and style a button for each cell
                 //Anything clickable should be a button!!
                 const cellButton = document.createElement("button");
                 cellButton.classList.add("cell");
