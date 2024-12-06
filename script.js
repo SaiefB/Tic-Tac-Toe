@@ -64,6 +64,19 @@ function GameController( // factory function to control the game flow
 
     let activePlayer = players[0] // tracks whose turn it is to play
 
+    const switchPlayerTurn = () => { // function to switch players
+        activePlayer = activePlayer === players[0] ? players[1] : players[0];
+    };
+    const getActivePlayer = () => activePlayer; // retrieves the activePlayer
+
+    const printNewRound = () => { // prints the most up to date board and logs the activePlayer to the console
+        board.printBoard();
+        console.log(`${getActivePlayer().name}'s turn.`);
+    };
+
+
+
+
     
 
 
