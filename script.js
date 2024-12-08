@@ -51,7 +51,7 @@ function GameController( // factory function to control the game flow
 ) {
     const board = Gameboard(); // object to run Gameboard factory function to initialise the gameboard
 
-    const player = [ // object to hold information of players
+    const players = [ // object to hold information of players
         {
             name: playerOneName,
             token: 1
@@ -96,7 +96,7 @@ function GameController( // factory function to control the game flow
     };
 }
 
-function ScreeController() {
+function ScreenController() {
     const game = GameController();
     const playerTurnDiv = document.querySelector('.turn');
     const boardDiv = document.querySelector('.board');
@@ -142,4 +142,4 @@ function ScreeController() {
     // We don't need to return anything from this module because everything is encapsulated inside this screen controller.
 }
 
-ScreeController();
+ScreenController();
