@@ -25,7 +25,6 @@ function Gameboard() { // Factory function to hold private functions
     };
 
     return { getBoard, placeToken, printBoard } // exposes the functon in the factory function to the global scope
-
 }
 
 
