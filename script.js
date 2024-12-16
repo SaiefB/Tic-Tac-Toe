@@ -14,32 +14,24 @@ function Gameboard() { // Factory function to hold private functions
     const getBoard = () => board; // function to retrieve board
 
     const placeToken = (column, player) => { // places a token in the selected field
-        const availableCells = board.filter((row) => row[column].getValue() === 0).map(row => row[column]);
-
-        if (!availableCells.length) return; // if cells are all taken then return
-    };
-
-    // TODO: check what this does
-    
-    /* const placeToken = (column, player) => {
         // Check if the column index is valid
         if (column < 0 || column >= columns) {
             console.error("Invalid column selected.");
             return false; // Invalid column
         }
-    
+
         // Find the first empty cell in the column
         for (let i = 0; i < rows; i++) {
             const cell = board[i][column];
             if (cell.getValue() === 0) {
-                cell.addToken(player); // Place the player's token
+                cell.addToken(player); // place the player's token
                 return true; // Successfully placed
             }
         }
-    
+
         console.warn("Column is full.");
         return false; // Column is full
-    }; */
+    };
 
     const printBoard = () => { // prints the board
         const boardWithCellValues = board.map((row) => row.map((cell) => cell.getValue()))
