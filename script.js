@@ -36,11 +36,11 @@ function Gameboard() { // Factory function to hold private functions
 
     // prints board to the console
     const printBoard = () => { // Arrow function with no parameters
-        const boardWithCellValues = board.map((row) => row.map((cell) => cell.getValue())) ; // TODO: continue
-        console.log(boardWithCellValues);
+        const boardWithCellValues = board.map((row) => row.map((cell) => cell.getValue())); // Outer map creates a new array with all 3 rows, inner map then creates a new array of cells with the cells converted to the number output
+        console.log(boardWithCellValues); // logs the board cells to the console
     };
 
-    return { getBoard, placeToken, printBoard } // exposes the functon in the factory function to the global scope
+    return { getBoard, placeToken, printBoard } // exposes the functions in the factory function to the global scope
 }
 
 
@@ -93,7 +93,7 @@ function GameController( // factory function to control the game flow
         console.log(
             `Placing ${getActivePlayer().name}'s token into column ${column}...`
         );
-        board.placeToken(column, getActivePlayer().token); // utilises the placeToken function to place token on the board
+        board.placeToken(column, getActivePlayer().token); // utilizes the placeToken function to place token on the board
 
         /*  This is where we would check for a winner and handle that logic,
         such as a win message. */
@@ -107,7 +107,7 @@ function GameController( // factory function to control the game flow
     return { // this return object - makes key function available to the scope above - i.e. global
         playRound,
         getActivePlayer,
-        getBoard: board.getBoard // allows external acces to the current state of the game board.
+        getBoard: board.getBoard // allows external access to the current state of the game board.
     };
 }
 
@@ -127,19 +127,20 @@ function ScreenController() {
 
         // Render board squares
         board.forEach(row => {
-            row.forEach((cell, index) => { // craete and style a button for each cell
+            row.forEach((cell, index) => { // create and style a button for each cell
                 //Anything clickable should be a button!!
                 const cellButton = document.createElement("button");
                 cellButton.classList.add("cell");
                 // Create a data attribute to identify the column
                 // This makes it easier to pass into our 'playRound' function
-                cellButton.dataset.column = index
-                cellButton.textContent = cell.getValue();
-                boardDiv.appendChild(cellButton);
+                cellButton.dataset.column = index // attaches an index to each button to differentiate from each other
+                cellButton.textContent = cell.getValue(); // changes the textContent of each cell respectively
+                boardDiv.appendChild(cellButton); // appends the cellButton to the boardDiv element
             })
         })
     }
 
+    // TODO: continue here
     // Add event listeners for the board
     function clickHandlerBoard(e) {
         const selectedColumn = e.target.dataset.column;
