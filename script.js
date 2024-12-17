@@ -1,9 +1,9 @@
 function Gameboard() { // Factory function to hold private functions
-    const rows = 3;
-    const columns = 3;
+    const rows = 3; // Initializes 3 rows
+    const columns = 3; // Initializes 3 columns
     const board = []; // board initialized
 
-    // For loop to create the board. other loop make the rows and inner loop makes the arrays within the rows
+    // For loop to create the board. outer loop makes the rows and inner loop makes the arrays within the rows
     for (let i = 0; i < rows; i++) {
         board[i] = [];
         for (let j = 0; j < columns; j++) {
@@ -13,28 +13,30 @@ function Gameboard() { // Factory function to hold private functions
 
     const getBoard = () => board; // function to retrieve board
 
-    const placeToken = (column, player) => { // places a token in the selected field
+    // places a token in the correct spot unless it is taken
+    const placeToken = (column, player) => { // function that takes in two parameters
         // Check if the column index is valid
-        if (column < 0 || column >= columns) {
-            console.error("Invalid column selected.");
+        if (column < 0 || column >= columns) { // If column is empty or more than or equal to 3 - error checking done here
+            console.error("Invalid column selected."); // Prints error message
             return false; // Invalid column
         }
 
-        // Find the first empty cell in the column
-        for (let i = 0; i < rows; i++) {
-            const cell = board[i][column];
+        // for loop to iterate through the rows and columns to check if free, if so token placed, if not error message
+        for (let i = 0; i < rows; i++) { // iterates through each row
+            const cell = board[i][column]; // selects the correct box using the row and then the column and names it cell
             if (cell.getValue() === 0) {
-                cell.addToken(player); // place the player's token
+                cell.addToken(player); // place the player's token within cell
                 return true; // Successfully placed
             }
         }
 
-        console.warn("Column is full.");
+        console.warn("Column is full."); 
         return false; // Column is full
     };
 
-    const printBoard = () => { // prints the board
-        const boardWithCellValues = board.map((row) => row.map((cell) => cell.getValue()))
+    // prints board to the console
+    const printBoard = () => { // Arrow function with no parameters
+        const boardWithCellValues = board.map((row) => row.map((cell) => cell.getValue())) ; // TODO: continue
         console.log(boardWithCellValues);
     };
 
