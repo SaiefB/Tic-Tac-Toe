@@ -77,7 +77,7 @@ function GameController( // factory function to control the game flow
         }
     ];
 
-    let activePlayer = players[0] // tracks whose turn it is to play
+    let activePlayer = players[0] // tracks whose turn it is to play 
 
     const switchPlayerTurn = () => { // function to switch players
         activePlayer = activePlayer === players[0] ? players[1] : players[0];
@@ -158,3 +158,5 @@ function ScreenController() {
 }
 
 ScreenController();
+
+// replicate with tuts
