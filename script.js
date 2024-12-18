@@ -112,7 +112,7 @@ function GameController( // factory function to control the game flow
 }
 
 function ScreenController() {
-    const game = GameController();
+    const game = GameController(); // gameVariable to hold the GameController() function
     const playerTurnDiv = document.querySelector('.turn');
     const boardDiv = document.querySelector('.board');
 
@@ -149,7 +149,7 @@ function ScreenController() {
         game.playRound(selectedColumn); // passes the selected column through the playRound function within the gameController Factory Function
         updateScreen(); // clears the board, then grabs the newest version of the board
     }
-    boardDiv.addEventListener("click", clickHandlerBoard); // adds the //////////////////////////////////////////
+    boardDiv.addEventListener("click", clickHandlerBoard); // adds the clickHandlerBoard function to be accessible through the boardDiv when clicked
 
     //Initial render
     updateScreen();
