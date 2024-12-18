@@ -142,15 +142,14 @@ function ScreenController() {
 
     // TODO: continue here
     // Add event listeners for the board
-    function clickHandlerBoard(e) {
-        const selectedColumn = e.target.dataset.column;
-        //MAke sure I've clicked a column and not the gaps in between
-        if (!selectedColumn) return;
+    function clickHandlerBoard(e) { // click handler function with e as a parameter
+        const selectedColumn = e.target.dataset.column; // selectedColumn Variable
+        if (!selectedColumn) return;//Make sure I've clicked a column and not the gaps in between
 
-        game.playRound(selectedColumn);
-        updateScreen();
+        game.playRound(selectedColumn); // passes the selected column through the playRound function within the gameController Factory Function
+        updateScreen(); // clears the board, then grabs the newest version of the board
     }
-    boardDiv.addEventListener("click", clickHandlerBoard);
+    boardDiv.addEventListener("click", clickHandlerBoard); // adds the //////////////////////////////////////////
 
     //Initial render
     updateScreen();
