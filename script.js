@@ -11,11 +11,14 @@
     }
     console.log(board); // For Debugging
 
-    const getBoard = () => board;
+    const getBoard = () => board; // function to retrieve board
 
     const placeToken = (cell, player) => {
-        const availableCell = 
-    }
+        if (cell < 0) {
+            console.log("Invalid Cell Selected!");
+            return false;
+        }
+    };
  }
 
  Gameboard();
