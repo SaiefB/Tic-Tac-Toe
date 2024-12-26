@@ -13,10 +13,17 @@
 
     const getBoard = () => board; // function to retrieve board
 
-    const placeToken = (cell, player) => {
-        if (cell < 0) {
+    const placeToken = (clickedCell, player) => {
+        if (clickedCell < 0) {
             console.log("Invalid Cell Selected!");
             return false;
+        }
+
+        for (let i = 0; i < rows; i++) {
+            for (let j = 0; j < columns; i++) {
+                const cell = board[i][j];
+            }
+            const cell = board[i]
         }
     };
  }
