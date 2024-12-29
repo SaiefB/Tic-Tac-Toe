@@ -1,5 +1,5 @@
 function Gameboard() {
-    let board = ["", "", "X", "", "", "", "", "", ""];
+    let board = ["", "", "", "", "", "", "", "", ""];
 
     const getBoard = () => {
         console.log(`Current Board: ${board}`)
@@ -7,8 +7,13 @@ function Gameboard() {
     };
 
     const updateCell = (index, value) => {
-        console.log(`Cell: ${board[index]}`)
-        return board[index] = value;
+        
+        if (board[index] === "") {
+            board[index] = value; 
+            console.log(`Cell ${index} updated to ${value}`)
+        } else {
+            console.log(`Cell ${index} is already occupied`)
+        }
     }
 
     const resetBoard = () => {
@@ -58,11 +63,44 @@ function GameController() {
         };
     };
 
-    const updateCell = () => {
+    const checkWin = () => {
+        let roundWon = false;
+        let currentBoard = gameBoard.getBoard();
 
+        for (let i = 0; i < winConditions.length; i++) {
+            const winningCondition = winConditions[i];
+            const cellA = currentBoard[winningCondition[0]]
+            console.log(cellA)
+            const cellB = currentBoard[winningCondition[1]]
+            const cellC = currentBoard[winningCondition[2]]
+
+
+            if (cellA === "" || cellB === "" || cellC === "") {
+                continue;
+            }
+
+            if (cellA === cellB && cellB === cellC) {
+                roundWon = true;
+                break;
+            };
+        }
+
+        if (roundWon) {
+            console.log(`Player ${currentPlayer} Wins!`)
+            gameRunning = false;
+        } else if (!currentBoard.includes("")) {
+            console.log("Draw!");
+            gameRunning = false;
+        } else {
+            changePlayer();
+        }
     }
 
-    return { getPlayer, isGameRunning, changePlayer, updateCell }
+
+
+
+
+    return { getPlayer, isGameRunning, changePlayer, checkWin }
 
 };
 
@@ -81,3 +119,42 @@ function ScreenController() {
 // for testing purposes:
 const game = GameController();
 const gameBoard = Gameboard();
+
+// Test updating cells and checking for wins:
+
+/* // Test for draw
+gameBoard.updateCell(4, "X")
+game.checkWin();
+gameBoard.updateCell(2, "O")
+game.checkWin();
+gameBoard.updateCell(5, "X")
+game.checkWin();
+gameBoard.updateCell(3, "O")
+game.checkWin();
+gameBoard.updateCell(7, "X")
+game.checkWin();
+gameBoard.updateCell(1, "O")
+game.checkWin();
+gameBoard.updateCell(0, "X")
+game.checkWin();
+gameBoard.updateCell(8, "O")
+game.checkWin();
+gameBoard.updateCell(6, "X")
+game.checkWin();
+ */
+
+// Test for win
+gameBoard.updateCell(0, "X")
+game.checkWin();
+gameBoard.updateCell(3, "O")
+game.checkWin();
+gameBoard.updateCell(1, "X")
+game.checkWin();
+gameBoard.updateCell(4, "O")
+game.checkWin();
+gameBoard.updateCell(2, "X")
+game.checkWin();
+console.log("/////////////////////////////////////////////////////")
+// Test for input after win
+gameBoard.updateCell(8, "O")
+game.checkWin();
