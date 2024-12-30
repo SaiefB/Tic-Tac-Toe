@@ -116,6 +116,7 @@ function GameController() {
 
 
 function ScreenController() {
+    const gameControl = GameController();
     const cells = document.querySelector(".cell");
     const statusText = document.querySelector("#statusText");
     const restartButton = document.querySelector("#restartBtn");
