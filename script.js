@@ -1,4 +1,4 @@
-function Gameboard() {
+function Gameboard(gameController) {
     let board = ["", "", "", "", "", "", "", "", ""];
 
     const getBoard = () => {
@@ -7,6 +7,11 @@ function Gameboard() {
     };
 
     const updateCell = (index, value) => {
+        
+        if (!gameController.isGameRunning()) {
+            console.log(`Game over. Press Restart to play again`)
+            return;
+        } 
         
         if (board[index] === "") {
             board[index] = value; 
@@ -70,7 +75,6 @@ function GameController() {
         for (let i = 0; i < winConditions.length; i++) {
             const winningCondition = winConditions[i];
             const cellA = currentBoard[winningCondition[0]]
-            console.log(cellA)
             const cellB = currentBoard[winningCondition[1]]
             const cellC = currentBoard[winningCondition[2]]
 
@@ -88,11 +92,14 @@ function GameController() {
         if (roundWon) {
             console.log(`Player ${currentPlayer} Wins!`)
             gameRunning = false;
+            console.log(`roundWon true gameRunning: ${gameRunning}`)
         } else if (!currentBoard.includes("")) {
             console.log("Draw!");
             gameRunning = false;
+            console.log(`all cells filled so draw, gameRunning: ${gameRunning}`)
         } else {
             changePlayer();
+            console.log(`gameRunning should true: ${gameRunning}`)
         }
     }
 
@@ -118,7 +125,7 @@ function ScreenController() {
 
 // for testing purposes:
 const game = GameController();
-const gameBoard = Gameboard();
+const gameBoard = Gameboard(game);
 
 // Test updating cells and checking for wins:
 
@@ -144,17 +151,20 @@ game.checkWin();
  */
 
 // Test for win
+console.log(`Round 1`)
 gameBoard.updateCell(0, "X")
 game.checkWin();
 gameBoard.updateCell(3, "O")
 game.checkWin();
+console.log(`Round 2`)
 gameBoard.updateCell(1, "X")
 game.checkWin();
 gameBoard.updateCell(4, "O")
 game.checkWin();
+console.log(`Round 3`)
 gameBoard.updateCell(2, "X")
 game.checkWin();
-console.log("/////////////////////////////////////////////////////")
+console.log("////////////////////////END GAME/////////////////////////////")
 // Test for input after win
 gameBoard.updateCell(8, "O")
 game.checkWin();
