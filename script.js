@@ -121,6 +121,16 @@ function ScreenController() {
     const statusText = document.querySelector("#statusText");
     const restartButton = document.querySelector("#restartBtn");
 
+    const updateScreen = () => {
+
+    };
+
+    function cellClicked(event) {
+        console.log(`cell clicked`)
+        const cell = event.target;
+        const cellIndex = cell.getAttribute("cellIndex");
+    }
+
 
 };
 
