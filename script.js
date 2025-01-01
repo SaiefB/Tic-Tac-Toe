@@ -106,7 +106,6 @@ function GameController() {
 
 
 
-
     return { getPlayer, isGameRunning, changePlayer, checkWin }
 
 };
