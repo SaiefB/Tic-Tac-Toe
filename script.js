@@ -2,33 +2,32 @@ function Gameboard(gameController) {
     let board = ["", "", "", "", "", "", "", "", ""];
 
     const getBoard = () => {
-        console.log(`Current Board: ${board}`)
+        console.log(`Current Board: ${board}`);
         return board;
     };
 
     const updateCell = (index, value) => {
-        
         if (!gameController.isGameRunning()) {
-            console.log(`Game over. Press Restart to play again`)
-            return;
-        } 
-        
-        if (board[index] === "") {
-            board[index] = value; 
-            console.log(`Cell ${index} updated to ${value}`)
-        } else {
-            console.log(`Cell ${index} is already occupied`)
+            console.log("Game over. Press Restart to play again.");
+            return false;
         }
-    }
-
-    const resetBoard = () => {
-        return board = ["", "", "", "", "", "", "", "", ""];
+        if (board[index] === "") {
+            board[index] = value;
+            console.log(`Cell ${index} updated to ${value}`);
+            return true;
+        } else {
+            console.log(`Cell ${index} is already occupied.`);
+            return false;
+        }
     };
 
-    return { getBoard, updateCell, resetBoard};
-};
+    const resetBoard = () => {
+        board = ["", "", "", "", "", "", "", "", ""];
+        console.log("Board reset.");
+    };
 
-
+    return { getBoard, updateCell, resetBoard };
+}
 
 function GameController() {
     const winConditions = [
@@ -38,143 +37,101 @@ function GameController() {
         [0, 3, 6],
         [1, 4, 7],
         [2, 5, 8],
+        [0, 4, 8],
         [2, 4, 6],
-        [0, 4, 8]
-    ]
+    ];
 
     let currentPlayer = "X";
-    console.log("currentPlayer: " + currentPlayer)
-
     let gameRunning = true;
-    console.log("isGameRunning: " + gameRunning)
 
-    const getPlayer = () => {
-        console.log(`Current Player: ${currentPlayer}`)
-        return currentPlayer;
-    }
+    const getPlayer = () => currentPlayer;
 
-    const isGameRunning = () => {
-        console.log(`Is the game Running: ${gameRunning}`)
-        return gameRunning;
-    }
+    const isGameRunning = () => gameRunning;
 
     const changePlayer = () => {
-        if (currentPlayer === "X") {
-            console.log(`Player changed to: O`)
-           return currentPlayer = "O";
-        } else {
-            console.log(`Player changed to: X`)
-            return currentPlayer = "X";
-        };
+        currentPlayer = currentPlayer === "X" ? "O" : "X";
+        console.log(`Player changed to: ${currentPlayer}`);
     };
 
-    const checkWin = () => {
+    const checkWin = (gameBoard) => {
         let roundWon = false;
-        let currentBoard = gameBoard.getBoard();
+        const currentBoard = gameBoard.getBoard();
 
-        for (let i = 0; i < winConditions.length; i++) {
-            const winningCondition = winConditions[i];
-            const cellA = currentBoard[winningCondition[0]]
-            const cellB = currentBoard[winningCondition[1]]
-            const cellC = currentBoard[winningCondition[2]]
-
-
-            if (cellA === "" || cellB === "" || cellC === "") {
-                continue;
-            }
-
-            if (cellA === cellB && cellB === cellC) {
+        for (const condition of winConditions) {
+            const [a, b, c] = condition;
+            if (currentBoard[a] && currentBoard[a] === currentBoard[b] && currentBoard[a] === currentBoard[c]) {
                 roundWon = true;
                 break;
-            };
+            }
         }
 
         if (roundWon) {
-            console.log(`Player ${currentPlayer} Wins!`)
+            console.log(`Player ${currentPlayer} Wins!`);
             gameRunning = false;
-            console.log(`roundWon true gameRunning: ${gameRunning}`)
+            return `${currentPlayer} Wins!`;
         } else if (!currentBoard.includes("")) {
             console.log("Draw!");
             gameRunning = false;
-            console.log(`all cells filled so draw, gameRunning: ${gameRunning}`)
+            return "Draw!";
         } else {
             changePlayer();
-            console.log(`gameRunning should true: ${gameRunning}`)
         }
-    }
+        return null;
+    };
 
+    const resetGame = () => {
+        gameRunning = true;
+        currentPlayer = "X";
+        console.log("Game reset.");
+    };
 
-
-
-    return { getPlayer, isGameRunning, changePlayer, checkWin }
-
-};
-
-
-
-
+    return { getPlayer, isGameRunning, changePlayer, checkWin, resetGame };
+}
 
 function ScreenController() {
-    const gameControl = GameController();
-    const cells = document.querySelector(".cell");
+    const gameController = GameController();
+    const gameBoard = Gameboard(gameController);
+    const cells = document.querySelectorAll(".cell");
     const statusText = document.querySelector("#statusText");
     const restartButton = document.querySelector("#restartBtn");
 
-    const updateScreen = () => {
-
+    const updateStatusText = (message) => {
+        statusText.textContent = message;
     };
 
-    function cellClicked(event) {
-        console.log(`cell clicked`)
+    const handleCellClick = (event) => {
         const cell = event.target;
-        const cellIndex = cell.getAttribute("cellIndex");
-    }
+        const index = cell.getAttribute("data-index");
 
+        if (!index || !gameController.isGameRunning()) return;
 
-};
+        const currentPlayer = gameController.getPlayer();
+        if (gameBoard.updateCell(index, currentPlayer)) {
+            cell.textContent = currentPlayer;
+            const result = gameController.checkWin(gameBoard);
 
-// for testing purposes:
-const game = GameController();
-const gameBoard = Gameboard(game);
+            if (result) {
+                updateStatusText(result);
+            } else {
+                updateStatusText(`Player ${gameController.getPlayer()}'s turn`);
+            }
+        }
+    };
 
-// Test updating cells and checking for wins:
+    const handleRestart = () => {
+        gameBoard.resetBoard();
+        gameController.resetGame();
+        cells.forEach((cell) => (cell.textContent = ""));
+        updateStatusText(`Player X's turn`);
+    };
 
-/* // Test for draw
-gameBoard.updateCell(4, "X")
-game.checkWin();
-gameBoard.updateCell(2, "O")
-game.checkWin();
-gameBoard.updateCell(5, "X")
-game.checkWin();
-gameBoard.updateCell(3, "O")
-game.checkWin();
-gameBoard.updateCell(7, "X")
-game.checkWin();
-gameBoard.updateCell(1, "O")
-game.checkWin();
-gameBoard.updateCell(0, "X")
-game.checkWin();
-gameBoard.updateCell(8, "O")
-game.checkWin();
-gameBoard.updateCell(6, "X")
-game.checkWin();
- */
+    // Add event listeners
+    cells.forEach((cell) => cell.addEventListener("click", handleCellClick));
+    restartButton.addEventListener("click", handleRestart);
 
-// Test for win
-console.log(`Round 1`)
-gameBoard.updateCell(0, "X")
-game.checkWin();
-gameBoard.updateCell(3, "O")
-game.checkWin();
-console.log(`Round 2`)
-gameBoard.updateCell(1, "X")
-game.checkWin();
-gameBoard.updateCell(4, "O")
-game.checkWin();
-console.log(`Round 3`)
-gameBoard.updateCell(2, "X")
-game.checkWin();
-console.log("////////////////////////END GAME/////////////////////////////")
-// Test for input after win
-gameBoard.updateCell(8, "O")
-game.checkWin();
+    // Initialize game state
+    updateStatusText("Player X's turn");
+}
+
+// Initialize the game
+ScreenController();
